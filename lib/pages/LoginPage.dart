@@ -13,6 +13,8 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   final _formKey = GlobalKey<FormState>();
   bool viewPasswordText = true;
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +57,17 @@ class _LoginpageState extends State<Loginpage> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 8),
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      floatingLabelStyle: TextStyle(color: Colors.black),
-                      filled: true,
-                      fillColor: Colors.grey[275],
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: green, width: 2.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                    ),
+                    decoration: textFieldDecoration(label: 'Email'),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Este campo deve ser preenchido';
+                      } else if (!value.contains('@')) {
+                        return 'Insira um email válido';
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (value) => email = value,
                     maxLines: 1,
                   ),
                 ),
@@ -78,14 +77,14 @@ class _LoginpageState extends State<Loginpage> {
                     decoration: InputDecoration(
                       suffixIcon: (viewPasswordText)
                           ? IconButton(
-                              icon: const Icon(Icons.remove_red_eye_outlined),
+                              icon: const Icon(Icons.visibility_off_outlined),
                               onPressed: () {
                                 setState(() {
                                   viewPasswordText = !viewPasswordText;
                                 });
                               })
                           : IconButton(
-                              icon: const Icon(Icons.visibility_off_outlined),
+                              icon: const Icon(Icons.remove_red_eye_outlined),
                               onPressed: () {
                                 setState(() {
                                   viewPasswordText = !viewPasswordText;
@@ -103,9 +102,28 @@ class _LoginpageState extends State<Loginpage> {
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.white, width: 2.0),
                       ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.red, width: 2.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.red, width: 2.0),
+                      ),
                     ),
-                    // textFieldDecoration(
-                    //     label: 'Senha', viewPasswordText: viewPasswordText),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Este campo deve ser preenchido';
+                      } else if (!value.contains(RegExp('[a-z]')) ||
+                          !value.contains(RegExp('[0-9]'))) {
+                        return 'A senha deve ser composta por letras e números';
+                      } else if (value.length < 8) {
+                        return 'A senha deve ter no mínimo 8 caracteres';
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (value) => password = value,
                     obscureText: viewPasswordText,
                     maxLines: 1,
                   ),
@@ -114,7 +132,13 @@ class _LoginpageState extends State<Loginpage> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Entrando...')),
+                            );
+                          }
+                        },
                         style: buttonStyle(),
                         child: const Text(
                           'Entrar',
@@ -131,11 +155,12 @@ class _LoginpageState extends State<Loginpage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 16),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Não tem uma conta?'),
+                      const Text('Não tem uma conta?'),
                       TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           'Criar uma conta',
                           style: TextStyle(
                             shadows: [
