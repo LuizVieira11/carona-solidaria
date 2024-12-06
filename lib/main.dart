@@ -1,5 +1,5 @@
-import '../pages/LoginPage.dart';
-import '../utils/colors.dart';
+import 'pages/login_page.dart';
+import 'utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
