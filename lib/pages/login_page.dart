@@ -12,7 +12,7 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   final _formKey = GlobalKey<FormState>();
-  bool viewPasswordText = true;
+  bool viewPasswordText = false;
   String email = '';
   String password = '';
 
@@ -51,7 +51,7 @@ class _LoginpageState extends State<Loginpage> {
                 const Text(
                   'Vamos começar',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 87, 99, 108),
+                    color: secondLayerText,
                   ),
                 ),
                 Padding(
@@ -74,45 +74,15 @@ class _LoginpageState extends State<Loginpage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      suffixIcon: (viewPasswordText)
-                          ? IconButton(
-                              icon: const Icon(Icons.visibility_off_outlined),
-                              onPressed: () {
-                                setState(() {
-                                  viewPasswordText = !viewPasswordText;
-                                });
-                              })
-                          : IconButton(
-                              icon: const Icon(Icons.remove_red_eye_outlined),
-                              onPressed: () {
-                                setState(() {
-                                  viewPasswordText = !viewPasswordText;
-                                });
-                              }),
-                      labelText: 'Senha',
-                      floatingLabelStyle: const TextStyle(color: Colors.black),
-                      filled: true,
-                      fillColor: Colors.grey[275],
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: green, width: 2.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(color: Colors.white, width: 2.0),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(color: Colors.red, width: 2.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            const BorderSide(color: Colors.red, width: 2.0),
-                      ),
+                    decoration: textFieldDecoration(
+                      label: 'Senha',
+                      isPassword: true,
+                      isPasswordVisible: viewPasswordText,
+                      togglePasswordVisibility: () {
+                        setState(() {
+                          viewPasswordText = !viewPasswordText;
+                        });
+                      },
                     ),
                     validator: (value) {
                       if (value == null) {
@@ -127,7 +97,7 @@ class _LoginpageState extends State<Loginpage> {
                       }
                     },
                     onChanged: (value) => password = value,
-                    obscureText: viewPasswordText,
+                    obscureText: !viewPasswordText,
                     maxLines: 1,
                   ),
                 ),
@@ -160,9 +130,11 @@ class _LoginpageState extends State<Loginpage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text('Não tem uma conta?'),
+                      const Text(' Não tem uma conta?'),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signup_page');
+                        },
                         child: const Text(
                           'Criar uma conta',
                           style: TextStyle(

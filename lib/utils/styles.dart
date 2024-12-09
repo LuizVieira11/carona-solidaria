@@ -11,11 +11,24 @@ ButtonStyle buttonStyle() {
   );
 }
 
-InputDecoration textFieldDecoration({required String label}) {
+InputDecoration textFieldDecoration({
+  required String label,
+  bool isPassword = false,
+  bool isPasswordVisible = false,
+  VoidCallback? togglePasswordVisibility,
+}) {
   return InputDecoration(
     labelText: label,
     floatingLabelStyle: const TextStyle(color: Colors.black),
     filled: true,
+    suffixIcon: isPassword
+        ? IconButton(
+            icon: Icon(isPasswordVisible
+                ? Icons.visibility_off_outlined
+                : Icons.remove_red_eye_outlined),
+            onPressed: togglePasswordVisibility,
+          )
+        : null,
     fillColor: Colors.grey[275],
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),

@@ -1,3 +1,5 @@
+import 'package:carona_solidaria/pages/sign_up_page.dart';
+
 import 'pages/login_page.dart';
 import 'utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class MainApp extends StatelessWidget {
         navigatorKey: navigatorKey,
         routes: <String, Widget Function(BuildContext)>{
           '/': (context) => const Loginpage(),
+          '/signup_page': (context) => const SignUpPage(),
         },
       ),
     );
