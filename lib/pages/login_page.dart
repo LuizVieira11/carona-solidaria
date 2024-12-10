@@ -135,16 +135,9 @@ class _LoginpageState extends State<Loginpage> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/signup_page');
                         },
-                        child: const Text(
+                        child: Text(
                           'Criar uma conta',
-                          style: TextStyle(
-                            shadows: [
-                              Shadow(color: green, offset: Offset(0, -1))
-                            ],
-                            color: Colors.transparent,
-                            decoration: TextDecoration.underline,
-                            decorationColor: green,
-                          ),
+                          style: textButtonStyle(),
                         ),
                       ),
                     ],

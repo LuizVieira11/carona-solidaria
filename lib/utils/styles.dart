@@ -11,6 +11,15 @@ ButtonStyle buttonStyle() {
   );
 }
 
+TextStyle textButtonStyle() {
+  return const TextStyle(
+    shadows: [Shadow(color: green, offset: Offset(0, -1))],
+    color: Colors.transparent,
+    decoration: TextDecoration.underline,
+    decorationColor: green,
+  );
+}
+
 InputDecoration textFieldDecoration({
   required String label,
   bool isPassword = false,
